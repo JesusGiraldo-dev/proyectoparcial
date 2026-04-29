@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS - Master DevLog & Audit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background: radial-gradient(circle at top left, #020617, #000);
+            background-attachment: fixed;
+            color: #e2e8f0;
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        .glass-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+            margin-bottom: 2rem;
+            padding: 2rem;
+        }
+        .neon-glow {
+            text-shadow: 0 0 15px rgba(6, 182, 212, 0.6);
+        }
+        .q-text { color: #94a3b8; font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+        .a-text { color: #22d3ee; font-size: 1.1rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(34, 211, 238, 0.1); padding-bottom: 0.5rem; }
+        .section-header { border-left: 4px solid #06b6d4; padding-left: 1rem; margin-bottom: 2rem; }
+    </style>
+</head>
+<body class="p-4 md:p-12">
+
+    <div class="max-w-4xl mx-auto">
+        <header class="text-center mb-16">
+            <h1 class="text-5xl font-black neon-glow tracking-tighter uppercase italic">NEXUS <span class="text-cyan-500">AUDIT</span></h1>
+            <p class="text-slate-500 mt-4 tracking-widest text-sm">REPORTE TÉCNICO DE PRODUCCIÓN MULTIMEDIAL</p>
+        </header>
+
+        <div class="glass-card">
+            <div class="section-header">
+                <h2 class="text-xl font-bold text-white tracking-widest">SECCIÓN 1: REQUERIMIENTOS Y ANÁLISIS</h2>
+            </div>
+            
+            <p class="q-text">1. ¿Requerimientos funcionales definidos?</p>
+            <p class="a-text">Sí</p>
+
+            <p class="q-text">2. ¿Requerimientos no funcionales identificados?</p>
+            <p class="a-text">Sí</p>
+
+            <p class="q-text">3. Describe los requerimientos funcionales:</p>
+            <p class="a-text text-sm italic">Filtrado dinámico, búsqueda en tiempo real, gestión de carrito y favoritos.</p>
+
+            <p class="q-text">4. Validación con el usuario:</p>
+            <p class="a-text text-sm italic">Pruebas de flujo de interfaz y feedback visual mediante notificaciones.</p>
+        </div>
+
+        <div class="glass-card">
+            <div class="section-header">
+                <h2 class="text-xl font-bold text-white tracking-widest">SECCIÓN 2: DISEÑO Y ARQUITECTURA</h2>
+            </div>
+            
+            <p class="q-text">5. ¿Sigue una arquitectura definida?</p>
+            <p class="a-text">Sí (Single Page Application - SPA)</p>
+
+            <p class="q-text">6. ¿Uso de diagramas (UML, ER)?</p>
+            <p class="a-text">No</p>
+
+            <p class="q-text">7. Justifica la arquitectura:</p>
+            <p class="a-text text-sm italic">Optimiza la velocidad de carga y mantiene el estado del carrito sin recargas de página.</p>
+
+            <p class="q-text">8. Facilidad de mantenimiento:</p>
+            <p class="a-text text-sm italic">Estructura modular con Tailwind CSS que evita redundancia de estilos.</p>
+        </div>
+
+        <div class="glass-card">
+            <div class="section-header">
+                <h2 class="text-xl font-bold text-white tracking-widest">SECCIÓN 3: INTERFAZ Y USABILIDAD</h2>
+            </div>
+            
+            <p class="q-text">9. ¿Es responsive?</p>
+            <p class="a-text">Sí</p>
+
+            <p class="q-text">10. ¿Navegación intuitiva?</p>
+            <p class="a-text">Sí</p>
+
+            <p class="q-text">11. Describe la experiencia de usuario:</p>
+            <p class="a-text text-sm italic">Inmersiva, con estética dark-mode y efectos visuales de alta respuesta.</p>
+
+            <p class="q-text">12. Mejoras propuestas:</p>
+            <p class="a-text text-sm italic">Añadir soporte para múltiples idiomas y temas de accesibilidad ARIA.</p>
+        </div>
+
+        <div class="glass-card">
+            <div class="section-header">
+                <h2 class="text-xl font-bold text-white tracking-widest">SECCIÓN 4: DESARROLLO Y CÓDIGO</h2>
+            </div>
+            
+            <p class="q-text">13. ¿Buenas prácticas de código?</p>
+            <p class="a-text">Sí</p>
+
+            <p class="q-text">14. ¿Uso de Git?</p>
+            <p class="a-text">Sí</p>
+
+            <p class="q-text">15. Estructura del proyecto:</p>
+            <p class="a-text text-sm italic">Frontend unificado con lógica en Vanilla JS y diseño atómico con Tailwind.</p>
+
+            <p class="q-text">16. Lenguajes y frameworks:</p>
+            <p class="a-text text-sm italic">HTML5, CSS3, JavaScript y Tailwind CSS.</p>
+        </div>
+
+        <div class="glass-card">
+            <div class="section-header">
+                <h2 class="text-xl font-bold text-white tracking-widest">SECCIÓN 5: BASE DE DATOS</h2>
+            </div>
+            
+            <p class="q-text">17. ¿Base de datos normalizada?</p>
+            <p class="a-text">Sí (Estructura de objetos JSON)</p>
+
+            <p class="q-text">18. ¿Relaciones entre tablas?</p>
+            <p class="a-text">Sí (Relación por ID de producto)</p>
+
+            <p class="q-text">19. Modelo de datos:</p>
+            <p class="a-text text-sm italic">Colección de objetos con atributos ID, Nombre, Precio y Categoría.</p>
+
+            <p class="q-text">20. Garantía de integridad:</p>
+            <p class="a-text text-sm italic">Validación de claves únicas al gestionar el carrito de compras.</p>
+        </div>
+
+        <div class="glass-card">
+            <div class="section-header">
+                <h2 class="text-xl font-bold text-white tracking-widest">SECCIÓN 6: SEGURIDAD</h2>
+            </div>
+            
+            <p class="q-text">21. ¿Autenticación de usuarios?</p>
+            <p class="a-text">Sí (Local/Simulada)</p>
+
+            <p class="q-text">22. ¿Protección de datos sensibles?</p>
+            <p class="a-text">No</p>
+
+            <p class="q-text">23. Vulnerabilidades:</p>
+            <p class="a-text text-sm italic">Manipulación de variables en cliente (XSS potencial si hay inputs externos).</p>
+
+            <p class="q-text">24. Medidas implementadas:</p>
+            <p class="a-text text-sm italic">Sanitización básica de entradas en buscador y uso de HTTPS vía CDN.</p>
+        </div>
+
+        <div class="glass-card">
+            <div class="section-header">
+                <h2 class="text-xl font-bold text-white tracking-widest">SECCIÓN 7: PRUEBAS Y CALIDAD</h2>
+            </div>
+            
+            <p class="q-text">25. ¿Realizó pruebas del sistema?</p>
+            <p class="a-text">Sí</p>
+
+            <p class="q-text">26. ¿Documentó errores y soluciones?</p>
+            <p class="a-text">No</p>
+
+            <p class="q-text">27. Proceso de pruebas:</p>
+            <p class="a-text text-sm italic">Pruebas funcionales de compra y verificación de responsividad en dispositivos.</p>
+
+            <p class="q-text">28. Garantía de calidad:</p>
+            <p class="a-text text-sm italic">Mantenimiento de consola limpia de errores y alta fidelidad visual.</p>
+        </div>
+
+        <div class="glass-card">
+            <div class="section-header">
+                <h2 class="text-xl font-bold text-white tracking-widest">SECCIÓN 8: RENDIMIENTO</h2>
+            </div>
+            
+            <p class="q-text">29. ¿Desplegado en servidor?</p>
+            <p class="a-text">No</p>
+
+            <p class="q-text">30. ¿Buen rendimiento?</p>
+            <p class="a-text">Sí</p>
+
+            <p class="q-text">31. ¿Dónde se implementó?</p>
+            <p class="a-text text-sm italic">Entorno local optimizado para carga estática instantánea.</p>
+
+            <p class="q-text">32. Estrategias de rendimiento:</p>
+            <p class="a-text text-sm italic">Uso de lazy loading y estilos atómicos para reducir el DOM.</p>
+        </div>
+
+        <div class="glass-card border-l-4 border-cyan-500">
+            <div class="section-header">
+                <h2 class="text-xl font-bold text-white tracking-widest">SECCIÓN 9: EVALUACIÓN CRÍTICA</h2>
+            </div>
+            
+            <p class="q-text">33. Mayor desafío y solución:</p>
+            <p class="a-text text-sm italic">Sincronización del carrito en tiempo real; resuelto con funciones de render dinámico.</p>
+
+            <p class="q-text">34. ¿Qué cambiarías?</p>
+            <p class="a-text text-sm italic">Integrar una base de datos real (Firebase) y un sistema de login robusto.</p>
+
+            <p class="q-text">35. Cumplimiento de calidad técnica:</p>
+            <p class="a-text text-sm italic">Diseño minimalista, código escalable y usabilidad intuitiva.</p>
+        </div>
+
+        <footer class="text-center py-10 text-gray-600 text-xs tracking-widest uppercase">
+            Nexus Store Tech Report &copy; 2026 - Desarrollo Multimedial
+        </footer>
+    </div>
+
+</body>
+</html>
