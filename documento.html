@@ -32,6 +32,12 @@
 <body class="p-4 md:p-12">
 
     <div class="max-w-4xl mx-auto">
+        <div class="mb-8">
+            <a href="index.html" class="inline-flex items-center gap-2 text-cyan-500 hover:text-cyan-400 transition font-bold uppercase text-xs tracking-widest">
+                <i class="fas fa-arrow-left"></i> Regresar a la Tienda
+            </a>
+        </div>
+
         <header class="text-center mb-16">
             <h1 class="text-5xl font-black neon-glow tracking-tighter uppercase italic">NEXUS <span class="text-cyan-500">AUDIT</span></h1>
             <p class="text-slate-500 mt-4 tracking-widest text-sm">REPORTE TÉCNICO DE PRODUCCIÓN MULTIMEDIAL</p>
@@ -49,10 +55,10 @@
             <p class="a-text">Sí</p>
 
             <p class="q-text">3. Describe los requerimientos funcionales:</p>
-            <p class="a-text text-sm italic">Filtrado dinámico, búsqueda en tiempo real, gestión de carrito y favoritos.</p>
+            <p class="a-text text-sm italic">Buscador, filtros por precio, gestión de carrito y lista de favoritos.</p>
 
             <p class="q-text">4. Validación con el usuario:</p>
-            <p class="a-text text-sm italic">Pruebas de flujo de interfaz y feedback visual mediante notificaciones.</p>
+            <p class="a-text text-sm italic">Pruebas de navegación y confirmación mediante notificaciones visuales.</p>
         </div>
 
         <div class="glass-card">
@@ -67,10 +73,10 @@
             <p class="a-text">No</p>
 
             <p class="q-text">7. Justifica la arquitectura:</p>
-            <p class="a-text text-sm italic">Optimiza la velocidad de carga y mantiene el estado del carrito sin recargas de página.</p>
+            <p class="a-text text-sm italic">Evita recargas de página, mejorando la velocidad y la experiencia de usuario.</p>
 
             <p class="q-text">8. Facilidad de mantenimiento:</p>
-            <p class="a-text text-sm italic">Estructura modular con Tailwind CSS que evita redundancia de estilos.</p>
+            <p class="a-text text-sm italic">Uso de clases utilitarias de Tailwind y lógica centralizada en JavaScript.</p>
         </div>
 
         <div class="glass-card">
@@ -85,10 +91,10 @@
             <p class="a-text">Sí</p>
 
             <p class="q-text">11. Describe la experiencia de usuario:</p>
-            <p class="a-text text-sm italic">Inmersiva, con estética dark-mode y efectos visuales de alta respuesta.</p>
+            <p class="a-text text-sm italic">Interfaz moderna con modo oscuro, fluida y adaptada a dispositivos móviles.</p>
 
             <p class="q-text">12. Mejoras propuestas:</p>
-            <p class="a-text text-sm italic">Añadir soporte para múltiples idiomas y temas de accesibilidad ARIA.</p>
+            <p class="a-text text-sm italic">Implementar soporte multi-idioma y etiquetas de accesibilidad.</p>
         </div>
 
         <div class="glass-card">
@@ -103,7 +109,7 @@
             <p class="a-text">Sí</p>
 
             <p class="q-text">15. Estructura del proyecto:</p>
-            <p class="a-text text-sm italic">Frontend unificado con lógica en Vanilla JS y diseño atómico con Tailwind.</p>
+            <p class="a-text text-sm italic">Código basado en Vanilla JavaScript, HTML5 y Tailwind CSS para el diseño.</p>
 
             <p class="q-text">16. Lenguajes y frameworks:</p>
             <p class="a-text text-sm italic">HTML5, CSS3, JavaScript y Tailwind CSS.</p>
@@ -121,10 +127,10 @@
             <p class="a-text">Sí (Relación por ID de producto)</p>
 
             <p class="q-text">19. Modelo de datos:</p>
-            <p class="a-text text-sm italic">Colección de objetos con atributos ID, Nombre, Precio y Categoría.</p>
+            <p class="a-text text-sm italic">Arreglo de objetos JSON con ID, nombre, precio, categoría y descripción.</p>
 
             <p class="q-text">20. Garantía de integridad:</p>
-            <p class="a-text text-sm italic">Validación de claves únicas al gestionar el carrito de compras.</p>
+            <p class="a-text text-sm italic">Control de duplicados mediante la validación de IDs únicos.</p>
         </div>
 
         <div class="glass-card">
@@ -139,10 +145,10 @@
             <p class="a-text">No</p>
 
             <p class="q-text">23. Vulnerabilidades:</p>
-            <p class="a-text text-sm italic">Manipulación de variables en cliente (XSS potencial si hay inputs externos).</p>
+            <p class="a-text text-sm italic">Seguridad limitada al ser una aplicación de lado del cliente.</p>
 
             <p class="q-text">24. Medidas implementadas:</p>
-            <p class="a-text text-sm italic">Sanitización básica de entradas en buscador y uso de HTTPS vía CDN.</p>
+            <p class="a-text text-sm italic">Sanitización de entradas en el buscador y carga segura vía CDN.</p>
         </div>
 
         <div class="glass-card">
@@ -157,10 +163,10 @@
             <p class="a-text">No</p>
 
             <p class="q-text">27. Proceso de pruebas:</p>
-            <p class="a-text text-sm italic">Pruebas funcionales de compra y verificación de responsividad en dispositivos.</p>
+            <p class="a-text text-sm italic">Testeo de funciones de compra y adaptabilidad en diferentes pantallas.</p>
 
             <p class="q-text">28. Garantía de calidad:</p>
-            <p class="a-text text-sm italic">Mantenimiento de consola limpia de errores y alta fidelidad visual.</p>
+            <p class="a-text text-sm italic">Código sin errores en consola y diseño visual coherente.</p>
         </div>
 
         <div class="glass-card">
@@ -175,10 +181,10 @@
             <p class="a-text">Sí</p>
 
             <p class="q-text">31. ¿Dónde se implementó?</p>
-            <p class="a-text text-sm italic">Entorno local optimizado para carga estática instantánea.</p>
+            <p class="a-text text-sm italic">Desarrollo local optimizado para carga rápida de recursos.</p>
 
             <p class="q-text">32. Estrategias de rendimiento:</p>
-            <p class="a-text text-sm italic">Uso de lazy loading y estilos atómicos para reducir el DOM.</p>
+            <p class="a-text text-sm italic">Carga diferida de imágenes y reducción de archivos CSS externos.</p>
         </div>
 
         <div class="glass-card border-l-4 border-cyan-500">
@@ -187,13 +193,13 @@
             </div>
             
             <p class="q-text">33. Mayor desafío y solución:</p>
-            <p class="a-text text-sm italic">Sincronización del carrito en tiempo real; resuelto con funciones de render dinámico.</p>
+            <p class="a-text text-sm italic">Manejo del carrito sin base de datos; resuelto con lógica de arreglos en JS.</p>
 
             <p class="q-text">34. ¿Qué cambiarías?</p>
-            <p class="a-text text-sm italic">Integrar una base de datos real (Firebase) y un sistema de login robusto.</p>
+            <p class="a-text text-sm italic">Añadir una base de datos real y un sistema de usuarios autenticados.</p>
 
             <p class="q-text">35. Cumplimiento de calidad técnica:</p>
-            <p class="a-text text-sm italic">Diseño minimalista, código escalable y usabilidad intuitiva.</p>
+            <p class="a-text text-sm italic">Proyecto funcional con diseño profesional y código organizado.</p>
         </div>
 
         <footer class="text-center py-10 text-gray-600 text-xs tracking-widest uppercase">
