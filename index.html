@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS Games Store - La Mejor Plataforma de Juegos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style type="text/tailwindcss">
+        body {
+            background: radial-gradient(circle at top left, #060b1a, #000);
+            background-size: 100% 100%; 
+            background-attachment: fixed;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        @keyframes rgb-glow {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(1000px circle at var(--x, 50%) var(--y, 50%), rgba(0, 255, 242, 0.2), transparent 50%);
+            z-index: -1;
+            animation: rgb-glow 10s linear infinite;
+            pointer-events: none;
+        }
+
+        /* Reemplazo de @apply por CSS Estándar para mayor estabilidad */
+        .glass {
+            background: rgba(10, 15, 30, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        #accountPanel, #cartPanel, #favPanel {
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+        }
+
+        .panel-closed { transform: translateX(100%); }
+        .panel-open { transform: translateX(0); }
+
+        .game-card {
+            background: rgba(10, 15, 30, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .game-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: rgba(6, 182, 212, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 0.5rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: #06b6d4;
+            color: #000;
+        }
+
+        .section-title {
+            border-left: 4px solid #06b6d4;
+            padding-left: 1rem;
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; scroll-behavior: smooth; }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #22d3ee; border-radius: 10px; }
+
+        #toast-container {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body class="text-white font-sans selection:bg-cyan-500 transition-colors duration-500">
+
+    <div id="toast-container"></div>
+
+    <!-- Panel de Cuenta -->
+    <div id="accountPanel" class="fixed top-0 right-0 w-full md:w-80 h-full glass border-l border-cyan-500/30 z-50 p-8 panel-closed overflow-y-auto">
+        <button onclick="togglePanel('accountPanel')" class="absolute top-4 left-4 text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
+        <div class="mt-12 text-center">
+            <div class="w-20 h-20 bg-gradient-to-br from-cyan-500 to-purple-600 rounded-full mx-auto flex items-center justify-center mb-4 shadow-lg shadow-cyan-500/30">
+                <i class="fas fa-user text-4xl text-white"></i>
+            </div>
+            <h2 class="text-2xl font-bold">Juan Pro</h2>
+            <p class="text-cyan-400 text-sm mb-2">juanpro@nexusgames.com</p>
+            <p class="text-gray-500 text-xs mb-8">Premium Member</p>
+            <div class="grid grid-cols-2 gap-4 mb-8">
+                <div class="bg-gray-900 p-3 rounded">
+                    <p class="text-cyan-400 font-bold">12</p>
+                    <p class="text-xs text-gray-500">Juegos</p>
+                </div>
+                <div class="bg-gray-900 p-3 rounded">
+                    <p class="text-purple-400 font-bold">$563.000</p>
+                    <p class="text-xs text-gray-500">Gastado</p>
+                </div>
+            </div>
+            <!-- Estado del Pedido -->
+            <div class="text-left mb-8">
+                <h4 class="text-sm font-bold uppercase text-gray-500 mb-4 tracking-widest">Estado del pedido</h4>
+                <div class="bg-white/5 p-4 rounded-xl border border-white/10">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-xs font-bold">#ORD-8821</span>
+                        <span class="text-[10px] bg-cyan-500 text-black px-2 py-0.5 rounded-full font-black">EN CAMINO</span>
+                    </div>
+                    <p class="text-xs text-gray-400">Entrega estimada: Hoy, 6:00 PM</p>
+                </div>
+            </div>
+            <button class="w-full py-2 bg-cyan-500 text-black font-bold rounded-lg hover:bg-cyan-400 transition mb-3"><i class="fas fa-wallet"></i> Añadir Crédito</button>
+            <button class="w-full py-2 border border-gray-700 rounded-lg hover:bg-white/5 transition">Configuración</button>
+        </div>
+    </div>
+
+    <!-- Panel de Carrito -->
+    <div id="cartPanel" class="fixed top-0 right-0 w-full md:w-96 h-full glass border-l border-purple-500/30 z-50 p-8 panel-closed flex flex-col">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-2xl font-bold"><i class="fas fa-shopping-cart text-purple-500"></i> Mi Carrito</h2>
+            <button onclick="togglePanel('cartPanel')" class="text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
+        </div>
+        <div id="cartItems" class="flex-grow overflow-y-auto space-y-4 mb-6">
+            <!-- Items dinámicos -->
+            <p class="text-gray-500 text-center mt-10">Tu carrito está vacío</p>
+        </div>
+        <div class="border-t border-gray-800 pt-6">
+            <div class="flex justify-between mb-4 text-xl font-bold">
+                <span>Total:</span>
+                <span id="cartTotal" class="text-cyan-400">$0.00</span>
+            </div>
+            <button class="w-full py-4 bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-bold rounded-xl hover:opacity-90 transition shadow-lg">Finalizar Compra</button>
+        </div>
+    </div>
+
+    <!-- Panel de Favoritos -->
+    <div id="favPanel" class="fixed top-0 right-0 w-full md:w-80 h-full glass border-l border-red-500/30 z-50 p-8 panel-closed flex flex-col">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-2xl font-bold"><i class="fas fa-heart text-red-500"></i> Favoritos</h2>
+            <button onclick="togglePanel('favPanel')" class="text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
+        </div>
+        <div id="favItems" class="flex-grow overflow-y-auto space-y-4">
+            <p class="text-gray-500 text-center mt-10">Sin favoritos</p>
+        </div>
+    </div>
+
+    <!-- Modal de Detalle de Producto -->
+    <div id="productModal" class="fixed inset-0 z-[60] bg-black/90 backdrop-blur-xl hidden flex items-center justify-center p-4">
+        <div class="glass w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-3xl relative">
+            <button onclick="closeProductModal()" class="absolute top-6 right-6 text-2xl hover:text-cyan-400 transition z-10"><i class="fas fa-times"></i></button>
+            <div id="modalContent" class="p-8 md:p-12">
+                <!-- Contenido dinámico -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <nav class="sticky top-0 z-40 glass border-b border-white/10 px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-10">
+            <h1 class="text-2xl font-black tracking-tighter uppercase cursor-pointer" onclick="showView('home')">Nexus<span class="text-cyan-500">Store</span></h1>
+            <div class="hidden lg:flex gap-6 text-sm font-bold uppercase tracking-widest text-gray-400">
+                <button onclick="showView('home')" class="hover:text-cyan-400 transition">Home</button>
+                <button onclick="showView('catalog')" class="hover:text-cyan-400 transition">Catálogo</button>
+                <button onclick="showView('contact')" class="hover:text-cyan-400 transition">Soporte</button>
+            </div>
+        </div>
+        
+        <div class="flex items-center gap-4 md:gap-8">
+            <!-- Buscador -->
+            <div class="relative hidden sm:block">
+                <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"></i>
+                <input type="text" id="searchInput" onkeyup="handleSearch()" placeholder="Buscar juegos..." class="bg-white/5 border border-white/10 rounded-full py-2 pl-12 pr-6 text-sm focus:outline-none focus:border-cyan-500 transition w-48 md:w-64">
+            </div>
+            
+            <button onclick="togglePanel('favPanel')" class="hover:text-red-400 transition"><i class="fas fa-heart text-xl"></i></button>
+            <button onclick="togglePanel('accountPanel')" class="hover:text-cyan-400 transition"><i class="fas fa-user-circle text-xl"></i></button>
+            <button onclick="togglePanel('cartPanel')" class="relative hover:text-cyan-400 transition">
+                <i class="fas fa-shopping-cart text-xl"></i>
+                <span id="cartBadge" class="absolute -top-2 -right-2 bg-cyan-500 text-black text-[10px] font-bold px-1.5 rounded-full hidden">0</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="mainContent" class="max-w-7xl mx-auto px-6 py-12">
+        <!-- Vista Home -->
+        <div id="homeView">
+            <!-- Hero -->
+            <section class="mb-20">
+                <div class="glass rounded-3xl p-8 md:p-16 relative overflow-hidden flex flex-col md:flex-row items-center gap-10">
+                    <div class="relative z-10 md:w-1/2">
+                        <span class="bg-cyan-500 text-black px-3 py-1 rounded-full text-xs font-bold uppercase mb-4 inline-block tracking-widest">Destacado</span>
+                        <h2 class="text-6xl font-black mb-6 leading-tight uppercase tracking-tighter">God of War<br><span class="text-cyan-400">Ragnarök</span></h2>
+                        <button onclick="openProductDetail(0)" class="bg-white text-black font-black px-10 py-4 rounded-xl hover:bg-cyan-400 transition transform hover:scale-105 shadow-2xl shadow-cyan-500/20">DETALLES $69.99</button>
+                    </div>
+                    <div class="md:w-1/2 w-full h-64 md:h-96 glass rounded-2xl overflow-hidden border-white/5 relative group cursor-pointer" onclick="openProductDetail(0)">
+                        <img src="https://image.api.playstation.com/vulcan/img/rnd/202010/2217/LsaRVLF2IU2L1FNtu9d3MKLq.jpg" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition duration-700" loading="lazy">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Secciones por Categoría -->
+            <div id="categorySections"></div>
+        </div>
+
+        <!-- Vista Catálogo -->
+        <div id="catalogView" class="hidden">
+            <div class="flex flex-col md:flex-row gap-8">
+                <!-- Filtros -->
+                <aside class="w-full md:w-64 glass p-6 rounded-2xl h-fit">
+                    <h3 class="font-bold mb-6 text-cyan-400">FILTROS</h3>
+                    <div class="space-y-6">
+                        <div>
+                            <p class="text-xs font-bold text-gray-500 mb-3 uppercase">Precio Máximo</p>
+                            <input type="range" id="priceFilter" min="0" max="100" value="100" oninput="handleFilter()" class="w-full accent-cyan-500">
+                            <div class="flex justify-between text-[10px] mt-1"><span>$0</span><span id="priceVal">$100</span></div>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-gray-500 mb-3 uppercase">Categoría</p>
+                            <select id="catFilter" onchange="handleFilter()" class="w-full bg-white/5 border border-white/10 rounded-lg p-2 text-sm">
+                                <option value="all">Todas</option>
+                                <option value="Acción & RPG">Acción & RPG</option>
+                                <option value="Deportes">Deportes</option>
+                                <option value="Free to Play">Free to Play</option>
+                            </select>
+                        </div>
+                    </div>
+                </aside>
+                <!-- Grid de Catálogo -->
+                <div class="flex-grow">
+                    <div id="catalogGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vista Contacto -->
+        <div id="contactView" class="hidden max-w-2xl mx-auto">
+            <div class="glass p-10 rounded-3xl">
+                <h2 class="text-3xl font-black mb-6 uppercase">Soporte Técnico</h2>
+                <form onsubmit="event.preventDefault(); showNotification('Mensaje enviado con éxito'); showView('home')" class="space-y-4">
+                    <input type="text" placeholder="Nombre completo" class="w-full bg-white/5 border border-white/10 rounded-xl p-4 focus:outline-none focus:border-cyan-500" required>
+                    <input type="email" placeholder="Correo electrónico" class="w-full bg-white/5 border border-white/10 rounded-xl p-4 focus:outline-none focus:border-cyan-500" required>
+                    <textarea placeholder="¿En qué podemos ayudarte?" class="w-full bg-white/5 border border-white/10 rounded-xl p-4 h-32 focus:outline-none focus:border-cyan-500" required></textarea>
+                    <button type="submit" class="w-full py-4 bg-cyan-500 text-black font-black rounded-xl hover:bg-cyan-400 transition">ENVIAR TICKET</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Vista Checkout -->
+        <div id="checkoutView" class="hidden max-w-4xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="glass p-8 rounded-3xl">
+                    <h3 class="text-xl font-black mb-6 uppercase">Método de Pago</h3>
+                    <div class="space-y-4">
+                        <div class="border border-cyan-500/50 bg-cyan-500/10 p-4 rounded-xl flex items-center gap-4 cursor-pointer">
+                            <i class="fab fa-cc-visa text-2xl"></i> <span>Tarjeta de Crédito / Débito</span>
+                        </div>
+                        <div class="border border-white/10 p-4 rounded-xl flex items-center gap-4 opacity-50 cursor-not-allowed">
+                            <i class="fab fa-paypal text-2xl"></i> <span>PayPal (Mantenimiento)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass p-8 rounded-3xl">
+                    <h3 class="text-xl font-black mb-6 uppercase">Resumen</h3>
+                    <div id="checkoutSummary" class="space-y-2 mb-6"></div>
+                    <button onclick="processOrder()" class="w-full py-4 bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-black rounded-xl shadow-lg">PAGAR AHORA</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer id="footer" class="border-t border-white/5 mt-20 p-12 glass text-center">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+            <h1 class="text-2xl font-black uppercase">Nexus<span class="text-cyan-500">Store</span></h1>
+            <div class="flex gap-8 text-sm text-gray-400">
+                <a href="#" class="hover:text-white transition">Privacidad</a>
+                <a href="#" class="hover:text-white transition">Soporte</a>
+                <a href="#" class="hover:text-white transition">Contacto</a>
+            </div>
+            <div class="flex gap-4">
+                <i class="fab fa-discord text-xl cursor-pointer hover:text-cyan-400"></i>
+                <i class="fab fa-twitter text-xl cursor-pointer hover:text-cyan-400"></i>
+                <i class="fab fa-instagram text-xl cursor-pointer hover:text-cyan-400"></i>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Base de Datos de Productos
+        const products = [
+            { id: 0, name: "God of War Ragnarök", price: 69.99, cat: "Acción & RPG", img: "https://image.api.playstation.com/vulcan/img/rnd/202010/2217/LsaRVLF2IU2L1FNtu9d3MKLq.jpg", desc: "Embárcate en un viaje épico y emotivo mientras Kratos y Atreus luchan por aferrarse y soltarse." },
+            { id: 1, name: "Elden Ring", price: 59.99, cat: "Acción & RPG", img: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1245620/capsule_616x353.jpg?t=1767883716", desc: "Levántate, Sinluz, y déjate guiar por la gracia para esgrimir el poder del Círculo de Elden." },
+            { id: 2, name: "Cyberpunk 2077", price: 29.99, cat: "Acción & RPG", img: "https://www.cyberpunk.net/build/images/social-thumbnail-en-ddcf4d23.jpg", desc: "Night City te cambiará. Un RPG de acción en un mundo abierto futurista." },
+            { id: 3, name: "The Witcher 3", price: 15.00, cat: "Acción & RPG", img: "https://assets.nintendo.com/image/upload/q_auto/f_auto/store/software/switch/70010000033071/3f7ee6aa3482b514bd443e116022b038a9728f017916ed37da3f09f731a7d5f2", desc: "Conviértete en Geralt de Rivia y caza monstruos en un mundo devastado." },
+            { id: 4, name: "Spiderman", price: 49.99, cat: "Acción & RPG", img: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1817070/capsule_616x353.jpg?t=1763569047", desc: "Siente el poder de Spiderman con un combate fluido y balanceo por Nueva York." },
+            { id: 5, name: "FIFA 23", price: 24.99, cat: "Deportes", img: "https://cdn2.unrealengine.com/ea-sports-fifa-23-is-coming-to-the-epic-games-store-1920x1080-398e19351a82.jpg", desc: "El juego de fútbol más popular del mundo con tecnología HyperMotion2." },
+            { id: 6, name: "Forza Horizon 5", price: 34.99, cat: "Deportes", img: "https://image.api.playstation.com/vulcan/ap/rnd/202502/1900/631436cfbc1d64659c778e3783f29fafad6022145e0ffec8.jpg", desc: "Explora los paisajes vibrantes de México en una aventura de conducción ilimitada." },
+            { id: 7, name: "NBA 2K24", price: 59.99, cat: "Deportes", img: "https://estaticos-cdn.prensaiberica.es/clip/4e4b13c4-1830-4776-bd80-e8769c5955a9_16-9-discover-aspect-ratio_default_0.jpg", desc: "Vive la cultura del baloncesto en NBA 2K24. Acción pura en la cancha." },
+            { id: 8, name: "Gran Turismo 7", price: 64.99, cat: "Deportes", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1Hg59mtAHwY3kj2uux_HD1nWEUW2ipL6r4w&s", desc: "El simulador de conducción real con 25 años de historia." },
+            { id: 9, name: "Valorant", price: 0, cat: "Free to Play", img: "https://xboxwire.thesourcemediaassets.com/sites/2/2024/08/Val-Console-Launch-Hero-1080-__-GAME-STORES-80b474d3ff38615edd0a-1900x1080.jpg", desc: "Un shooter táctico 5v5 basado en personajes. La precisión lo es todo." },
+            { id: 10, name: "Apex Legends", price: 0, cat: "Free to Play", img: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1172470/0850cd41655393ed61cc950b8d232a492dd7c85d/capsule_616x353.jpg?t=1770753360", desc: "Battle Royale de héroes. Domina a tu personaje y vence a la competencia." },
+            { id: 11, name: "Fortnite", price: 0, cat: "Free to Play", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsHModALjraoKbioIxjZX3C6zr6jy-5EB7lw&s", desc: "Crea, juega y combate. El fenómeno mundial de Epic Games." },
+            { id: 12, name: "League of Legends", price: 0, cat: "Free to Play", img: "https://cdn1.epicgames.com/offer/24b9b5e323bc40eea252a10cdd3b2f10/EGS_LeagueofLegends_RiotGames_S1_2560x1440-47eb328eac5ddd63ebd096ded7d0d5ab", desc: "El MOBA competitivo más jugado. Estrategia y trabajo en equipo." }
+        ];
+
+        let cart = [];
+        let favorites = [];
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', () => {
+            renderHome();
+            renderCatalog(products);
+        });
+
+        // Renderizar Home
+        function renderHome() {
+            const sections = document.getElementById('categorySections');
+            const categories = [...new Set(products.map(p => p.cat))];
+            sections.innerHTML = categories.map(cat => `
+                <section class="mb-16">
+                    <h3 class="text-2xl font-black mb-8 section-title uppercase tracking-widest text-cyan-400">${cat}</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        ${products.filter(p => p.cat === cat).slice(0, 4).map(p => createGameCard(p)).join('')}
+                    </div>
+                </section>
+            `).join('');
+        }
+
+        // Crear Tarjeta de Juego
+        function createGameCard(p) {
+            return `
+                <div class="game-card glass rounded-2xl overflow-hidden group relative">
+                    <button onclick="toggleFavorite(${p.id})" class="absolute top-4 right-4 z-10 text-xl transition hover:scale-125 ${favorites.includes(p.id) ? 'text-red-500' : 'text-white/50'}">
+                        <i class="fas fa-heart"></i>
+                    </button>
+                    <div class="h-48 overflow-hidden cursor-pointer group" onclick="openProductDetail(${p.id})">
+                        <img src="${p.img}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy">
+                    </div>
+                    <div class="p-5">
+                        <h4 class="font-bold text-lg mb-1 truncate">${p.name}</h4>
+                        <p class="text-cyan-400 font-bold mb-4">${p.price === 0 ? 'GRATIS' : '$' + p.price.toLocaleString()}</p>
+                        <button onclick="addToCart(${p.id})" class="btn-primary">
+                            ${p.price === 0 ? 'Reclamar' : 'Añadir'}
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Navegación
+        function showView(view) {
+            document.getElementById('homeView').classList.toggle('hidden', view !== 'home');
+            document.getElementById('catalogView').classList.toggle('hidden', view !== 'catalog');
+            document.getElementById('contactView').classList.toggle('hidden', view !== 'contact');
+            document.getElementById('checkoutView').classList.toggle('hidden', view !== 'checkout');
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        // Buscador y Filtros
+        function handleSearch() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            if (query.length > 0) {
+                showView('catalog');
+                const filtered = products.filter(p => p.name.toLowerCase().includes(query));
+                renderCatalog(filtered);
+            }
+        }
+
+        function handleFilter() {
+            const maxPrice = document.getElementById('priceFilter').value;
+            const cat = document.getElementById('catFilter').value;
+            document.getElementById('priceVal').innerText = `$${maxPrice}`;
+            
+            const filtered = products.filter(p => {
+                const matchPrice = p.price <= maxPrice;
+                const matchCat = cat === 'all' || p.cat === cat;
+                return matchPrice && matchCat;
+            });
+            renderCatalog(filtered);
+        }
+
+        function renderCatalog(items) {
+            const grid = document.getElementById('catalogGrid');
+            grid.innerHTML = items.length > 0 ? items.map(p => createGameCard(p)).join('') : '<p class="text-gray-500 py-20 text-center w-full col-span-full">No se encontraron juegos</p>';
+        }
+
+        // Detalle de Producto
+        function openProductDetail(id) {
+            const p = products.find(prod => prod.id === id);
+            const related = products.filter(prod => prod.cat === p.cat && prod.id !== p.id).slice(0, 3);
+            
+            const modal = document.getElementById('productModal');
+            const content = document.getElementById('modalContent');
+            
+            content.innerHTML = `
+                <div class="flex flex-col md:flex-row gap-12">
+                    <div class="md:w-1/2 rounded-3xl overflow-hidden shadow-2xl">
+                        <img src="${p.img}" class="w-full h-full object-cover" loading="lazy">
+                    </div>
+                    <div class="md:w-1/2">
+                        <h2 class="text-5xl font-black mb-4 uppercase">${p.name}</h2>
+                        <p class="text-cyan-400 text-3xl font-black mb-6">${p.price === 0 ? 'GRATIS' : '$' + p.price.toLocaleString()}</p>
+                        <p class="text-gray-400 text-lg leading-relaxed mb-10">${p.desc}</p>
+                        <div class="flex gap-4">
+                            <button onclick="addToCart(${p.id})" class="flex-grow py-5 bg-cyan-500 text-black font-black rounded-2xl hover:bg-cyan-400 transition">AÑADIR AL CARRITO</button>
+                            <button onclick="toggleFavorite(${p.id})" class="p-5 glass rounded-2xl hover:text-red-500"><i class="fas fa-heart text-2xl"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-20">
+                    <h3 class="text-xl font-bold mb-8 text-gray-500 uppercase tracking-widest">También te podría gustar</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                        ${related.map(r => `
+                            <div class="glass p-4 rounded-xl flex gap-4 cursor-pointer hover:bg-white/5" onclick="openProductDetail(${r.id})">
+                                <img src="${r.img}" class="w-20 h-20 object-cover rounded-lg" loading="lazy">
+                                <div>
+                                    <p class="font-bold text-sm">${r.name}</p>
+                                    <p class="text-cyan-400 text-xs">$${r.price.toLocaleString()}</p>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            modal.classList.remove('hidden');
+        }
+
+        function closeProductModal() {
+            document.getElementById('productModal').classList.add('hidden');
+        }
+
+        // Notificaciones Toast
+        function showNotification(msg) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'glass border-l-4 border-cyan-500 px-6 py-4 rounded-xl mb-4 shadow-2xl animate-bounce-in flex items-center gap-4';
+            toast.innerHTML = `<i class="fas fa-check-circle text-cyan-500"></i> <span class="font-bold text-sm">${msg}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // Favoritos
+        function toggleFavorite(id) {
+            const index = favorites.indexOf(id);
+            if (index > -1) favorites.splice(index, 1);
+            else {
+                favorites.push(id);
+                showNotification("Añadido a favoritos");
+            }
+            updateFavUI();
+            renderHome();
+            renderCatalog(products);
+        }
+
+        function updateFavUI() {
+            const list = document.getElementById('favItems');
+            if (favorites.length === 0) {
+                list.innerHTML = '<p class="text-gray-500 text-center mt-10">Sin favoritos</p>';
+                return;
+            }
+            list.innerHTML = favorites.map(id => {
+                const p = products.find(prod => prod.id === id);
+                return `
+                    <div class="flex items-center gap-4 bg-white/5 p-3 rounded-xl">
+                        <img src="${p.img}" class="w-12 h-12 object-cover rounded-lg" loading="lazy">
+                        <div class="flex-grow">
+                            <p class="text-xs font-bold">${p.name}</p>
+                        </div>
+                        <button onclick="toggleFavorite(${p.id})" class="text-red-500"><i class="fas fa-trash"></i></button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Lógica de Paneles
+        function togglePanel(id) {
+            const panel = document.getElementById(id);
+            panel.classList.toggle('panel-closed');
+            panel.classList.toggle('panel-open');
+        }
+
+        // Carrito Funcional
+        function addToCart(id) {
+            const product = products.find(p => p.id === id);
+            const existing = cart.find(item => item.id === id);
+            
+            if(existing) {
+                existing.quantity++;
+            } else {
+                cart.push({...product, quantity: 1});
+            }
+            
+            updateCartUI();
+            showNotification(`${product.name} añadido al carrito`);
+            if(document.getElementById('cartPanel').classList.contains('panel-closed')) {
+                togglePanel('cartPanel');
+            }
+        }
+
+        function updateCartUI() {
+            const list = document.getElementById('cartItems');
+            if (cart.length === 0) {
+                list.innerHTML = '<p class="text-gray-500 text-center mt-10">Tu carrito está vacío</p>';
+                document.getElementById('cartTotal').innerText = '$0.00';
+                document.getElementById('cartBadge').classList.add('hidden');
+                return;
+            }
+
+            let total = 0;
+            const html = cart.map((item, index) => {
+                total += item.price * item.quantity;
+                return `
+                    <div class="flex justify-between items-center bg-white/5 p-4 rounded-xl border border-white/5">
+                        <div class="flex-grow">
+                            <p class="font-bold text-sm">${item.name}</p>
+                            <p class="text-cyan-400 text-xs">$${(item.price * item.quantity).toLocaleString()}</p>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <button onclick="changeQty(${index}, -1)" class="w-6 h-6 rounded-full bg-white/10 hover:bg-white/20">-</button>
+                            <span class="text-sm font-bold">${item.quantity}</span>
+                            <button onclick="changeQty(${index}, 1)" class="w-6 h-6 rounded-full bg-white/10 hover:bg-white/20">+</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            list.innerHTML = html;
+            document.getElementById('cartTotal').innerText = `$${total.toLocaleString()}`;
+            document.getElementById('cartBadge').innerText = cart.length;
+            document.getElementById('cartBadge').classList.remove('hidden');
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function changeQty(index, delta) {
+            cart[index].quantity += delta;
+            if(cart[index].quantity <= 0) cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function processOrder() {
+            showNotification("Procesando pago...");
+            setTimeout(() => {
+                cart = [];
+                updateCartUI();
+                showNotification("¡Compra realizada con éxito!");
+                showView('home');
+            }, 2000);
+        }
+
+        // Sobrescribir el botón del panel del carrito para ir a checkout
+        document.querySelector('#cartPanel button.w-full').onclick = () => {
+            if(cart.length === 0) return showNotification("El carrito está vacío");
+            togglePanel('cartPanel');
+            showView('checkout');
+            const summary = document.getElementById('checkoutSummary');
+            summary.innerHTML = cart.map(item => `
+                <div class="flex justify-between text-sm">
+                    <span class="text-gray-400">${item.name} x${item.quantity}</span>
+                    <span class="font-bold">$${(item.price * item.quantity).toLocaleString()}</span>
+                </div>
+            `).join('') + `
+                <div class="flex justify-between text-lg font-black border-t border-white/10 pt-4 mt-4">
+                    <span>TOTAL</span>
+                    <span class="text-cyan-400">${document.getElementById('cartTotal').innerText}</span>
+                </div>
+            `;
+        };
+
+        // Efecto de fondo interactivo
+        document.addEventListener('mousemove', e => {
+            document.body.style.setProperty('--x', (e.clientX / window.innerWidth * 100) + '%');
+            document.body.style.setProperty('--y', (e.clientY / window.innerHeight * 100) + '%');
+        });
+    </script>
+</body>
+</html>
